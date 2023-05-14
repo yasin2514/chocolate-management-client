@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
+import Chocolate from './components/Chocolate';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
+  const loadedChocolates = useLoaderData();
+  const [chocolates, setChocolates] = useState(loadedChocolates)
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className='max-w-screen-lg mx-auto'>
+      <h2 className='text-center text-4xl font-bold my-8'>Chocolate Management System</h2>
+      <Link to={'/addChocolate'} className='btn btn-outline'>+ New Chocolate</Link>
 
-export default App
+      <div className="overflow-x-auto w-full my-10">
+        <table className="table w-full">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Country/Factory</th>
+              <th>Category</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              chocolates.map(chocolate => <Chocolate
+                key={chocolate._id}
+                chocolate={chocolate}
+                chocolates={chocolates}
+                setChocolates={setChocolates}
+              ></Chocolate>)
+            }
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  );
+};
+
+export default App;
